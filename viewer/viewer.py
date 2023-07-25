@@ -198,7 +198,7 @@ class Viewer:
         """
         if boxes is None:
             return
-        boxes= convert_box_type(boxes,self.box_type)
+        boxes= convert_box_type(boxes,self.box_type)#转换不同数据集xyzwlhangle到统一的顺序
         if boxes is None:
             return
 
@@ -394,10 +394,11 @@ class Viewer:
         """
 
         if self.first_show:
-            self.vi.show(self.actors+self.actors_without_del, resetcam=False,  camera={'pos': (-10, 0, 5), 'focalPoint': (5, 0, 2), 'viewup': (0, 0, 1)})#
+            # self.vi.show(self.actors+self.actors_without_del, resetcam=False,  camera={'pos': (-10, 0, 5), 'focalPoint': (5, 0, 2), 'viewup': (0, 0, 1)})#
+            self.vi.show(self.actors+self.actors_without_del, axes=1, resetcam=False,  camera={'pos': (-10, 0, 5), 'focalPoint': (5, 0, 2), 'viewup': (0, 0, 1)})#
             self.first_show = False
         else:
-            self.vi.show(self.actors + self.actors_without_del, resetcam=False)
+            self.vi.show(self.actors + self.actors_without_del, axes=1, resetcam=False)
             
         self.vi.clear()
         self.actors.clear()
@@ -505,8 +506,9 @@ class Viewer:
 
             self.image[y, x] = color
 
+        cv2.namedWindow('im', cv2.WINDOW_NORMAL)
         cv2.imshow('im',self.image)
-        cv2.waitKey(10)
+        cv2.waitKey()
         self.points_info.clear()
         self.boxes_info.clear()
 

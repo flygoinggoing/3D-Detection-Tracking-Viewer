@@ -28,7 +28,8 @@ class KittiDetectionDataset:
         label_path = os.path.join(self.label_path, name+".txt")
 
         P2,V2C = read_calib(calib_path)
-        points = read_velodyne(velo_path,P2,V2C)
+        # points = read_velodyne(velo_path,P2,V2C)      # 默认会将相机视野外的点云去掉
+        points = read_velodyne(velo_path,P2,V2C,IfReduce=False)
         image = read_image(image_path)
         labels,label_names = read_detection_label(label_path)
         labels[:,3:6] = cam_to_velo(labels[:,3:6],V2C)[:,:3]
